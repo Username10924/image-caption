@@ -89,7 +89,8 @@ async def generate_caption(
         outputs = model.generate(**inputs, max_length=50)
         caption = processor.decode(outputs[0], skip_special_tokens=True)
     elif model_type =="git":
-        pixel_values = processor(images=raw_image, return_tensors="pt")
+        inputs = processor(images=raw_image, return_tensors="pt")
+        pixel_values = inputs["pixel_values"]
         generated_ids = model.generate(pixel_values=pixel_values, max_length=50)
         caption = processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
     else:
